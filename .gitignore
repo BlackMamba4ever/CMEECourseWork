@@ -2,4 +2,4 @@
 *.tmp
 */sandbox
 .DS_Store
-.idea/
+**/.idea/
