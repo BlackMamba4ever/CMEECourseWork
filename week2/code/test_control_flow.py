@@ -35,7 +35,7 @@ def main(argv):
     return 0
 
 
-if (__name__ == "__main__"):
+if __name__ == "__main__":
     status = main(sys.argv)
 
 doctest.testmod()  # To run with embedded tests

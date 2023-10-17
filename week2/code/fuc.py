@@ -13,12 +13,13 @@ def read_file(filename):
     with open(filename) as f:
         s1 = f.readline().strip()
         s2 = f.readline().strip()
-    if len(s2) > len(s1):
+    l1 = len(s1)
+    l2 = len(s2)
+    if l2 > l1:
         temp = s1
         s1 = s2
         s2 = temp
-    l1 = len(s1)
-    l2 = len(s2)
+
     return s1, s2, l1, l2
 
 
@@ -73,5 +74,5 @@ def main(file):
 
 
 if __name__ == "__main__":
-    status = main("../data/seqfile.txt")
+    status = main(sys.argv[1])
     sys.exit(status)

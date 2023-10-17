@@ -14,14 +14,14 @@ def read_file(file1_name, file2_name):
         next(f)
         s1 = f.read().strip().replace("\n", "")
     with open(file2_name) as f:
-        s1 = f.readline().strip()
-        s2 = f.readline().strip()
-    if len(s2) > len(s1):
+        next(f)
+        s2 = f.read().strip().replace("\n", "")
+    l1 = len(s1)
+    l2 = len(s2)
+    if l2 > l1:
         temp = s1
         s1 = s2
         s2 = temp
-    l1 = len(s1)
-    l2 = len(s2)
     return s1, s2, l1, l2
 
 
@@ -61,20 +61,32 @@ def compare_seq_score(s1, s2, l1, l2):
 
 
 def out_put(my_best_score, my_best_align):
-    out_put_file = "../results/align_seqs.txt"
+    out_put_file = "../results/align_seqs_fasta.txt"
     with open(out_put_file, "w") as f:
+        f.write("my_best_align:\n")
         f.write(my_best_align)
-        f.write(":")
+        f.write("\n")
+        f.write("my_best_score:\n")
         f.write(str(my_best_score))
 
 
-def main(file):
-    seq1, seq2, l1, l2 = read_file(file)
+def main(file1, file2):
+    seq1, seq2, l1, l2 = read_file(file1, file2)
     best_score, best_align = compare_seq_score(seq1, seq2, l1, l2)
     out_put(best_score, best_align)
+
     return 0
 
 
 if __name__ == "__main__":
-    status = main("../data/seqfile.txt")
-    sys.exit(status)
+    if len(sys.argv) == 3:
+        status = main(sys.argv[1], sys.argv[2])
+        sys.exit(status)
+    elif len(sys.argv) == 2:
+        status = main(sys.argv[1], "../data/fasta/407228326.fasta")
+        sys.exit(status)
+    elif len(sys.argv) == 1:
+        status = main("../data/fasta/407228412.fasta", "../data/fasta/407228326.fasta")
+        sys.exit(status)
+    else:
+        print("Wrong input, need 1 py file and 2 fasta files")
