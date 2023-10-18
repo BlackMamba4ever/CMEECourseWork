@@ -51,7 +51,6 @@ def compare_seq_score(s1, s2, l1, l2):
         if z > my_best_score:
             my_best_align = "." * i + s2  # think about what this is doing!
             my_best_score = z
-    # print(my_best_align)
     # print(s1)
     # print("Best score:", my_best_score)
     # s_total, i = [calculate_score(s1, s2, l1, l2, i) for i in range(bg_st_p)]
