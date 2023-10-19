@@ -9,6 +9,10 @@ import sys
 
 
 def read_file(filename):
+    """
+    Read a file and find the long sequence and the short sequence.
+    """
+
     with open(filename) as f:
         s1 = f.readline().strip()
         s2 = f.readline().strip()
@@ -23,6 +27,10 @@ def read_file(filename):
 
 
 def calculate_score(s1, s2, l1, l2, startpoint):
+    """
+    Use short sequence align the long one and return the alignment score.
+    """
+
     matched = ""  # to hold string displaying alignments
     score = 0
     for i in range(l2):
@@ -42,6 +50,10 @@ def calculate_score(s1, s2, l1, l2, startpoint):
 
 
 def compare_seq_score(s1, s2, l1, l2):
+    """
+    Compare the score of the matches by using calculate_score function.
+    """
+
     my_best_align = None
     my_best_score = -1
     for i in range(l1):  # Note that you just take the last alignment with the highest score
@@ -56,6 +68,10 @@ def compare_seq_score(s1, s2, l1, l2):
 
 
 def out_put(my_best_score, my_best_align):
+    """
+    Output the best alignment and its corresponding score.
+    """
+
     out_put_file = "../results/align_seqs.txt"
     with open(out_put_file, "w") as f:
         f.write(my_best_align)

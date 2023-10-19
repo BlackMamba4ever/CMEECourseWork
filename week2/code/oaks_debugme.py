@@ -13,7 +13,8 @@ import doctest
 
 # Define function
 def is_an_oak(name):
-    """Returns True if name is starts with 'quercus'.
+    """
+    Returns True if name is starts with 'quercus'.
 
     >>> is_an_oak('quercus')
     True
@@ -32,6 +33,11 @@ def is_an_oak(name):
 
 
 def main(argv):
+    """
+    Read test file and determine whether the genus is an oak;
+    Output the genus name and typo in a csv file.
+    """
+
     f = open('../data/TestOaksData.csv', 'r')
     g = open('../data/JustOaksData.csv', 'w')
     taxa = csv.reader(f)
