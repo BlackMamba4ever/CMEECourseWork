@@ -1,6 +1,10 @@
-#############################
-# FILE INPUT
-#############################
+#!/usr/bin/env python3
+
+"""Read a file containing"""
+
+__author__ = 'Pu Zhao (pu.zhao@imperial.ac.uk)'
+__version__ = '0.0.1'
+
 # Open a file for reading
 f = open('../sandbox/test.txt', 'r')
 # use "implicit" for loop:
@@ -20,8 +24,6 @@ for line in f:
 
 f.close()
 
-
-
 #############################
 # FILE INPUT
 #############################
@@ -39,4 +41,3 @@ with open('../sandbox/test.txt', 'r') as f:
     for line in f:
         if len(line.strip()) > 0:
             print(line)
-

@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+
+""" Some functions"""
+
+__author__ = 'Pu Zhao (pu.zhao@imperial.ac.uk)'
+__version__ = '0.0.1'
+
 
 ########################
 def hello_1(x):
@@ -6,7 +13,9 @@ def hello_1(x):
             print('hello')
     print(' ')
 
+
 hello_1(12)
+
 
 ########################
 def hello_2(x):
@@ -17,7 +26,9 @@ def hello_2(x):
             print('hello')
     print(' ')
 
+
 hello_2(12)
+
 
 ########################
 def hello_3(x, y):
@@ -25,7 +36,9 @@ def hello_3(x, y):
         print('hello')
     print(' ')
 
+
 hello_3(3, 17)
+
 
 ########################
 def hello_4(x):
@@ -34,7 +47,9 @@ def hello_4(x):
         x = x + 3
     print(' ')
 
+
 hello_4(0)
+
 
 ########################
 def hello_5(x):
@@ -47,16 +62,18 @@ def hello_5(x):
         x = x + 1
     print(' ')
 
+
 hello_5(12)
+
 
 # WHILE loop with BREAK
 def hello_6(x, y):
-    while x: # while x is True
+    while x:  # while x is True
         print("hello! " + str(y))
-        y += 1 # increment y by 1 
+        y += 1  # increment y by 1
         if y == 6:
             break
     print(' ')
 
-hello_6 (True, 0)
 
+hello_6(True, 0)

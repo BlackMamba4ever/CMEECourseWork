@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+
+"""pickle package and unpickle"""
+
+__author__ = 'Pu Zhao (pu.zhao@imperial.ac.uk)'
+__version__ = '0.0.1'
+
 import pickle
 
 #############################
@@ -16,15 +23,3 @@ another_dictionary = pickle.load(f)
 f.close()
 
 print(another_dictionary)
-
-
-
-
-
-
-
-
-
-
-
-

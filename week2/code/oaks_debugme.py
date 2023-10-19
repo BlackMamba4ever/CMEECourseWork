@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+
+"""Debug and test function which is used to check whether the name is an oak."""
+
+__author__ = 'Pu Zhao (pu.zhao@imperial.ac.uk)'
+__version__ = '0.0.1'
+
 import csv
 import sys
 import ipdb

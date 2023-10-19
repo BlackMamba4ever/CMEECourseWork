@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+
+"""Using loop function and Vectorization to map order names to sets of taxa and prints it to screen"""
+
+__author__ = 'Pu Zhao (pu.zhao@imperial.ac.uk)'
+__version__ = '0.0.1'
+
 taxa = [('Myotis lucifugus', 'Chiroptera'),
         ('Gerbillus henleyi', 'Rodentia',),
         ('Peromyscus crinitus', 'Rodentia'),

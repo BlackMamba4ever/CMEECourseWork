@@ -1,3 +1,8 @@
+"""Loop functions"""
+
+__author__ = 'Pu Zhao (pu.zhao@imperial.ac.uk)'
+__version__ = '0.0.1'
+
 # FOR loops
 for i in range(5):
     print(i)
@@ -17,4 +22,3 @@ z = 0
 while z < 100:
     z = z + 1
     print(z)
-

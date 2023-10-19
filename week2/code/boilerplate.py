@@ -4,7 +4,7 @@
 You can use several lines"""
 
 __appname__ = '[application name here]'
-__author__ = 'Your Name (your@email.address)'
+__author__ = 'Pu Zhao (pu.zhao@imperial.ac.uk)'
 __version__ = '0.0.1'
 __license__ = "License for this code/program"
 

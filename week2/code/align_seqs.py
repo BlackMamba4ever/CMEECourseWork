@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
-"""Some functions exemplifying the use of control statements"""
-# docstrings are considered part of the running code (normal comments are
-# stripped). Hence, you can access your docstrings at run time.
+"""Find the best alignment and its corresponding score in an input file"""
+
 __author__ = 'Pu Zhao (pu.zhao@imperial.ac.uk)'
 __version__ = '0.0.1'
 

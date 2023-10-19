@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+
+"""write a file"""
+
+__author__ = 'Pu Zhao (pu.zhao@imperial.ac.uk)'
+__version__ = '0.0.1'
+
 #############################
 # FILE OUTPUT
 #############################
