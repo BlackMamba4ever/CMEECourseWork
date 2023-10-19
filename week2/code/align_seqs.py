@@ -33,7 +33,6 @@ def calculate_score(s1, s2, l1, l2, startpoint):
                 score = score + 1
             else:
                 matched = matched + "-"
-
     # some formatted output
     # print("." * startpoint + matched)
     # print("." * startpoint + s2)
@@ -65,13 +64,17 @@ def out_put(my_best_score, my_best_align):
         f.write(str(my_best_score))
 
 
-def main(file):
-    seq1, seq2, l1, l2 = read_file(file)
+def main(file_name):
+    seq1, seq2, l1, l2 = read_file(file_name)
     best_score, best_align = compare_seq_score(seq1, seq2, l1, l2)
     out_put(best_score, best_align)
     return 0
 
 
 if __name__ == "__main__":
-    status = main(sys.argv[1])
-    sys.exit(status)
+    if len(sys.argv) == 1:
+        status = main("../data/seqfile.csv")
+        sys.exit(status)
+    else:
+        print("Wrong input! Try again, need to provide a file")
+        sys.exit(1)
