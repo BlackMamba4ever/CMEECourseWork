@@ -6,16 +6,24 @@ __author__ = 'Pu Zhao (pu.zhao@imperial.ac.uk)'
 __version__ = '0.0.1'
 
 import sys
+import csv
 
 
 def read_file(filename):
     """
     Read a file and find the long sequence and the short sequence.
     """
-
-    with open(filename) as f:
-        s1 = f.readline().strip()
-        s2 = f.readline().strip()
+    with open(filename, 'r') as f:
+        # s1 = f.readline().strip()
+        # s2 = f.readline().strip()
+        csv_file = csv.reader(f)
+        temp = []
+        for row in csv_file:
+            temp.append(row[1])
+        s1 = temp[0]
+        s2 = temp[1]
+        print(type(s1))
+        print(s2)
     l1 = len(s1)
     l2 = len(s2)
     if l2 > l1:
