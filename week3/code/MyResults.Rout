@@ -1,0 +1,36 @@
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # A simple script to illustrate R input-output.  
+> # Run line by line and check inputs outputs to understand what is happening  
+> 
+> MyData <- read.csv("../data/trees.csv", header = TRUE) # import with headers
+> 
+> write.csv(MyData, "../results/MyData.csv") #write it out as a new file
+> 
+> # write.table(MyData[1,], file = "../results/MyData.csv",append=TRUE) # Append to it
+> 
+> write.csv(MyData, "../results/MyData.csv", row.names=TRUE) # write row names
+> 
+> write.table(MyData, "../results/MyData.csv", col.names=FALSE) # ignore column names
+> 
+> print("Script complete!")
+[1] "Script complete!"
+> 
+> proc.time()
+   user  system elapsed 
+  0.080   0.021   0.101 
