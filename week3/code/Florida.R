@@ -25,9 +25,6 @@ dev.off()
 
 acc_Y_T <- cor.test(ats$Year, ats$Temp, use = "pairwise")
 acc_1 <- acc_Y_T$estimate
-pdf("../results/ats_p.pdf")
-print(plot(ats))
-dev.off()
 
 cor_f1 <- function(data){
   r <- cor.test(ats$Year, sample(ats$Temp, length(ats$Temp), replace = FALSE), use = "pairwise")
