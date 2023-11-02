@@ -3,6 +3,7 @@
 if [ "$#" == 0 ]; then
   echo "need to input file"
   exit 1
+fi
 
 if [ ${1: -4} !=  ".tex" ]; then
   echo "need to input file with .tex extension"
@@ -12,7 +13,7 @@ fi
 filename=${1%.tex}
 
 pdflatex $filename.tex
-bibtex ../results/$filename/$filename
+bibtex $filename
 pdflatex $filename.tex
 pdflatex $filename.tex
 
