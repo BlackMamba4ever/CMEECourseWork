@@ -1,6 +1,7 @@
 rm(list = ls())
 MyDF <- read.csv("../data/EcolArchives-E089-51-D1.csv")
 require(tidyverse)
+library(tidyverse)
 MyDF <-
   MyDF %>% mutate(
     Type.of.feeding.interaction = as.factor(Type.of.feeding.interaction),

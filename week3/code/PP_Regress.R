@@ -4,6 +4,7 @@ require(tidyverse)
 library(tidyverse)
 require(ggplot2)
 library(ggplot2)
+require(ggthemes)
 library(ggthemes)
 
 
@@ -11,8 +12,7 @@ p <- ggplot(MyDF,
        aes(
          Prey.mass,
          Predator.mass,
-         colour = Predator.lifestage),
-         ) +
+         colour = Predator.lifestage)) +
   xlab("Prey Mass in grams") + 
   ylab("Predator Mass in grams") +
   facet_grid(Type.of.feeding.interaction ~.) +
