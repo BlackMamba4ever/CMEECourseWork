@@ -1,0 +1,85 @@
+\documentclass[a4paper, 11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\lstdefinestyle{Rstyle}{
+  language=R,
+  basicstyle=\ttfamily,
+  commentstyle=\color{blue},
+  numbers=left,
+  numberstyle=\tiny\color{red},
+  frame=single,
+  breaklines=true,
+}
+\usepackage[a4paper,top=0.5cm,bottom=1cm,left=2cm,right=2cm,marginparwidth=1.75cm]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Climate Change in Florida}
+\author{PU ZHAO}
+\date{}
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+The project is divided into three steps. First, the correlation coefficient between the year and temperature in Key West, Florida, during the 20th century was calculated. Second, the temperature was randomly assigned to the year and the correlation coefficient was calculated and stored multiple times. Finally, It is to calculate the proportion of correlation coefficients of all randomly assigned samples that are greater than the initial correlation coefficient.
+
+\section{Results and Interpret}
+
+\subsection{Appropriate correlation coefficient between year and temperature}
+
+Correlation Coefficient = 0.5331784 
+\begin{lstlisting}[style=Rstyle]
+# Select the correlation coefficient from the cor.tst.
+acc_Y_T <- cor.test(ats$Year, ats$Temp, use = "pairwise")
+acc_1 <- acc_Y_T$estimate 
+\end{lstlisting}
+
+\subsection{Appropriate correlation coefficient between year and temperature}
+Correlation coefficient of randomly rearranged temperatures(10,000 times):
+
+1: 0.0522606815791263  
+
+2: 0.0972111328124418
+
+3: 0.107258674080693
+
+4: 0.0504045798413428
+
+......
+
+9997: 0.0113854568741932
+
+9998: -0.0416276192579462
+
+9999: -0.055803083949343
+
+10000: -0.0114732850321331
+
+\begin{lstlisting}[style=Rstyle]
+cor_f1 <- function(data){
+  # The sample function reassigns the temperature to the year and finds the correlation coefficient under the current sample.
+  r <- cor.test(ats$Year, sample(ats$Temp, length(ats$Temp), replace = FALSE), use = "pairwise")
+  return(r$estimate)
+}  
+# Performs the above function 10,000 times and store them.
+c_c_values_in_10000_sample <- as.data.frame(sapply(1:10000, function(x) cor_f1(ats)))
+colnames(c_c_values_in_10000_sample) = "c_c_values"
+\end{lstlisting}
+
+\subsection{Calculate what fraction of the random correlation coefficients were greater than the observed one}
+
+The fraction of the random correlation coefficients were greater than the observed one : 0
+
+\begin{lstlisting}[style=Rstyle]
+# Find the proportion of 10,000 random correlation coefficients that are greater than the observed value.
+pos <- sum(c_c_values_in_10000_sample > acc_1) / 10000
+\end{lstlisting}
+
+\end{document}
+
+
+
