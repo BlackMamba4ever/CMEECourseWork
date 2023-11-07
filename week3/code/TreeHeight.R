@@ -17,7 +17,6 @@ TreeHeight <- function(degrees, distance) {
   return (height)
 }
 num <- nrow(trees)
-trees$Angle.degrees
 all_trees_height <- sapply(1:nrow(trees) , function(i) TreeHeight(trees$Angle.degrees[i], trees$Distance.m[i]))
 TreeHts <- cbind(trees, Tree.Height.m = all_trees_height)
 write.csv(TreeHts, file = "../results/TreeHts.csv", row.names = FALSE)

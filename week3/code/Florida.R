@@ -27,7 +27,7 @@ acc_Y_T <- cor.test(ats$Year, ats$Temp, use = "pairwise")
 acc_1 <- acc_Y_T$estimate
 
 cor_f1 <- function(data){
-  r <- cor.test(ats$Year, sample(ats$Temp, length(ats$Temp), replace = FALSE), use = "pairwise")
+  r <- cor.test(data$Year, sample(data$Temp, length(data$Temp), replace = FALSE), use = "pairwise")
   return(r$estimate)
 }
 c_c_values_in_10000_sample <- as.data.frame(sapply(1:10000, function(x) cor_f1(ats)))
