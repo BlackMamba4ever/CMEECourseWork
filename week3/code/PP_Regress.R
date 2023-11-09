@@ -1,5 +1,5 @@
 rm(list = ls())
-MyDF <- read.csv("../data/EcolArchives-E089-51-D1.csv")
+MyDF <- as.data.frame(read.csv("../data/EcolArchives-E089-51-D1.csv"))
 require(tidyverse)
 library(tidyverse)
 require(ggplot2)
@@ -29,20 +29,20 @@ print(p)
 dev.off()
 
 
-lm1 <- MyDF %>% group_by(Type.of.feeding.interaction, Predator.lifestage)
-lm1 <- summary(lm(MyDF$Predator.mass ~ MyDF$Prey.mass), data = subdata)
-intercept <- lm1$coefficients[1]
-slope <- lm1$coefficients[2]
-r_squared <- lm1$r.squared
-f_statistic <- lm1$fstatistic[1]
-p_value <- lm1$coefficients[, "Pr(>|t|)"][2]
+lm_models_data <- MyDF %>%
+  group_by(Type.of.feeding.interaction, Predator.lifestage) %>%
+  do(model = lm(Predator.mass ~ Prey.mass, data = .)) %>%
+  reframe(
+    Type.of.feeding.interaction,
+    Predator.lifestage,
+    intercept = summary(model)$coefficients[1],
+    slope = summary(model)$coefficients[2],
+    r_squared = summary(model)$r.squared,
+    f_statistic = as.numeric(summary(model)$fstatistic[1]),
+    p_value = summary(model)$coefficients[, "Pr(>|t|)"][2]
+  )
 
-regression_results <- data.frame(
-  "The regression results" = c("intercept", "slope", "r_squared", "f_statistic", "p_value"),
-  "Value" = c(intercept, slope, r_squared, f_statistic, p_value)
-)
-
-write.csv(regression_results, "../results/PP_Regress_Results.csv", row.names = F)
+write.csv(lm_models_data, "../results/PP_Regress_Results.csv", row.names = F)
 
 
 
