@@ -1,0 +1,172 @@
+\documentclass[11pt]{article}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage[left=0.8in, right=0.8in, top=1in, bottom=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{float}
+
+\begin{document}
+
+% Title Page
+\begin{titlepage}
+    \centering
+    \vspace*{3cm}
+    {\LARGE\bfseries In Quantifying Bacterial Growth in Laboratory Conditions, Mechanistic Models Outperform Phenomenological Models \par}
+    \vspace{4cm}
+    {\Large\itshape PU ZHAO \par}
+    {\Large pu.zhao23@imperial.ac.uk \par}
+    \vfill
+    {\large 02/12/2023 \par}
+    {\large Imperial College London \par}
+\end{titlepage}
+
+% Word count
+\section*{Word Count}
+\textit{The document contains 2866 words.}
+
+\doublespacing
+
+\begin{abstract}
+Population growth is a central concept to population ecology. In simple terms, population growth is the rise in the number of people in a specific area or globally over a certain period. This involves factors such as birth rates, death rates, and migration.By analyzing these factors, people can predict changes in the number of biological individuals over time.  For analyzing trends in population changes, model fitting is a crucial method. The purpose of this project is to analyze the growth of different types of bacteria and determine which is more suitable for the data: nonlinear mechanistic models or phenomenological models. The overall project is to use the nonlinear least squares framework in RStudio to fit the model to the data for analysis. I assume that the nonlinear mechanical logic model is better than the cubic model and the quadratic model, and among the nonlinear mechanical logic models, the logistic model is the most fitting model. In the final comparison of all models, I chose to use the AICc(Akaike Information Criterion with correction) values as the criterion for evaluating the quality of model fitting, confirming my hypothesis. Ultimately, in approximately 55\% of cases, the logistic model proved to be the most suitable, while the Gompertz model was the best fit for around 23\% of the data. In contrast, the quadratic and cubic models provided the best fit in only 13.7\% and 8\% of the data, respectively. This indicates that, under normal experimental conditions, the logistic model is the optimal choice for predicting bacterial growth. These findings contribute to advancing research and understanding in fields such as biology and ecology.
+\end{abstract}
+
+% Introduction
+\section{Introduction}
+The population growth rate is consider as the key unifying variable linking the various facets of population ecology. The importance of population growth rate lies partly in its central role in forecasting future population trends (\cite{sibly_hone_2002}).\par
+Malthus contended that the population should undergo exponential growth, while the food supply would increase linearly. The disparate growth rates between these two factors would ultimately lead to a rapid population expansion beyond the capacity of food supply, resulting in the outbreak of diseases, famine, war, or disasters. Consequently, this would culminate in a slowdown, stagnation or even reversal of population growth (\cite{malthus_population_1798}). The growth rate of the global population increased slowly from 1700 to 1950, then accelerated rapidly until the mid-1960s, peaking at just over 2\% per year before descending to 1.1\% per year in 2010. Between 1800 and 2011, population size increased seven-fold (\cite{lee_outlook_2011}).\par
+The growth of bacteria and the growth of human populations share many similarities. Based on these similarities, we can predict population growth by studying the growth of biomass or the number of cells of microbes.\par
+\begin{quote} 
+1. Exponential Growth: Both bacteria and human populations exhibit the potential for exponential growth. Under favorable environmental conditions, their numbers can increase rapidly, leading to exponential growth. Resource.
+\end{quote}
+\begin{quote} 
+2. Limitations: Both bacteria and humans are subject to limitations imposed by available resources. For humans, the crucial factor is often the supply of food, while for bacteria, nutritional and survival conditions similarly constrain their growth.
+\end{quote}
+\begin{quote} 
+3. Environmental Factors: Both bacteria and humans are influenced by environmental factors. Changes in temperature, humidity, nutrition, and other environmental conditions can impact their growth.
+\end{quote}
+
+The data used in my project were collected through experiments conducted in laboratories around the world. It comprises measurements of biomass or the number of microbial cells over time. According to research findings, the growth phases of bacteria are roughly divided into lag phase, exponential phase, stationary phase, and death phase (\cite{maier_book_2015}).\par
+
+Model fitting is the key method for predicting the growth of bacteria(\cite{levins_1966}). Most models for microbial growth in food are variants of empirical algebraic models and logical models. The Gompertz model, compared to the logistic model, also analyzes the initial phase of bacterial growth: the lag phase. In contrast, the logistic model only focuses on the exponential and stationary phases (\cite{peleg_2011}). The objective of my project is to assess whether mechanical models outperform phenomenological models in describing bacterial growth across diverse experimental conditions. I conducted a detailed examination of four models: Gompertz, logistic, quadratic, and cubic. In comparison to quadratic and cubic models, both Gompertz and logistic models incorporate considerations for initial population size, maximum growth rate, and carrying capacity. Moreover, the Gompertz model specifically considers the initial lag phase. I assume that the logistic model is better suited for capturing the nuances in the experimental data when compared to quadratic and cubic models.\par
+
+% Methods
+\section{Methods}
+\subsection{Computing Tools in Main Code}
+The main body of this project is written in the R programming language. The advantages of R include its built-in rich statistical analysis and graphics capabilities. R provides a variety of data visualization tools, enabling the generation of high-quality statistical charts. The language also features a powerful integrated development environment (IDE) called RStudio, which incorporates multiple tools such as script editor, console, variable viewer, and graph viewer, providing a comprehensive development environment for users. RStudio also includes a built-in package manager, making the installation, loading, and management of R packages more convenient. Therefore, I choose to use the R programming language.\par
+Furthermore, R effortlessly handles various data types, including tabular data, images, text, and more. In future project, if the dataset becomes larger and more complex, incorporating Python for data handling and analysis may enhance work efficiency. Python offers tools and frameworks for handling big data, such as PySpark for integration with Apache Spark, making Python a powerful choice for large-scale data analysis and processing.
+\begin{itemize}
+    \item \textbf{(tidyverse)} The tidyverse is a collection of multiple packages that provides a consistent, clear, and efficient set of tools for data analysis. Two main packages from the tidyverse are utilized in my project:\\
+    \textbf{ggplot2}: This package is used for creating beautiful and highly customizable graphics. It allows users to generate complex data visualizations through a simple and intuitive syntax.\\
+    \textbf{dplyr}: This package offers a set of functions for data manipulation and operations, including data filtering, sorting, grouping, summarization, and more. It employs an intuitive syntax, making data manipulation tasks simpler and more readable.
+    \item \textbf{(minpack.lm)} The minpack.lm package provides an implementation of the Nonlinear Least Squares (NLS) algorithm. The project primarily utilized the \textbf{nlsLM()} function from this package.
+\end{itemize}
+
+\subsection{Computing Tools in Report}
+
+The report of this project was written in LaTeX on Overleaf, a platform that automatically compiles LaTeX code, allowing users to see the document's appearance in real-time. This facilitates faster debugging and visualizing the effects of changes, saving a considerable amount of time. LaTeX offers a rich set of packages that conveniently add various functionalities and styles to meet diverse requirements.\par
+Although LaTeX is useful, the final compilation was completed through a bash script. The bash script also invokes R language scripts to perform data analysis and visualization. Using a bash script for compilation helps integrate the calls to different scripts, streamlining operations for greater simplicity.
+
+\subsection{Workflow: Data Preparation \& Model}
+In this project, I focused on fitting four models to each set of data. Before fitting all models, it is necessary to address the negative values in the PopBio of data. From a biological perspective, the population quantity for any organism cannot be negative, as the existence of a population implies a certain number of individuals, and thus, the population size should be a positive value (\(N > 0\)). Therefore, removing these negative values will not affect the fitting process. Additionally, the primary focus of this project is the relationship between LogPopBio and time. LogPopBio is obtained by taking the logarithm of all PopBio data in the dataset. Here are these 4 models: 
+\begin{itemize}
+    \item \textbf{Logistic Model}:\par
+    \begin{equation*}
+    N_{t} = \frac{ N_{0}*K*e^{r_{max}*t}}{K + N_{0}*(e^{r_{max}*t}-1)}
+    \end{equation*} \\
+    Logical model falls under the category of mechanistic models, requiring four parameters: N0, K, Time, and rmax. Here Nt is population size at time , N0 is initial population size, r is maximum growth rate (AKA rmax), and K is carrying capacity. This model also belongs to the category of nonlinear models, and it is fitted using the nlsLM() function. This function is suitable for cases where the relationship between the dependent variable and the independent variable is nonlinear.
+    
+    \item \textbf{Gompertz Model}:\par 
+    \begin{equation*}
+    N_{t} = N_{0}+(K-N_{0})*e^{-e^{\frac{r_{max}*e^{1}*(t_{lag}-t)}{(K-N_{0})*\log(10)}+1}}
+    \end{equation*}
+    Gompertz model also falls under the category of mechanistic models, requiring five parameters: N0, K, Time, rmax and t-lag. Here, the first four parameters are the same as in the logistic model described above, and the last parameter, t-lag, represents the lag phase in population growth. this is because the population takes a while to grow truly exponentially (i.e., there is a time lag in the population growth). This time lag is seen frequently in the lab, and is also expected in nature, because when bacteria encounter fresh growth media (in the lab) or a new resource/environment (in the field), they take some time to acclimate, activating genes involved in nutrient uptake and metabolic processes, before beginning exponential growth. This is called the lag phase. Both this model and the logistic model are nonlinear models, and they are also fitted using the nlsLM() function.
+
+    \item \textbf{Quadratic Model}:\par 
+    \begin{equation*}
+    N_{t} = a*Time^{2}+b*Time+c
+    \end{equation*}
+    
+    \item \textbf{Cubic Model}:\par
+    \begin{equation*}
+    N_{t} = a*Time^{3}+b*Time^{2}+c*Time+d
+    \end{equation*}
+    The quadratic model and cubic model both belong to the category of phenomenological models. In the project, I used the lm() function to fit these two models, assuming that the relationship between the dependent variable and the independent variable is linear. Although the relationship between variables in quadratic and cubic models may be nonlinear, they are still linear in terms of parameters. Therefore, the lm() function can be used for fitting.
+\end{itemize}
+
+\subsection{Workflow: Model Fitting}
+This project analyzes a dataset comprising multiple sets of diverse data, derived from laboratory experiments studying bacterial growth under various environmental conditions. These conditions include different types of culture media and temperatures. I created an ID column to categorize the data, and for each unique ID, I performed fitting on the corresponding dataset using four different models: logistic, Gompertz, quadratic, and cubic.\par
+To enhance the reliability of model evaluation, I implemented a for loop to exclude IDs with a data size less than 6. This was done to prevent the AICc (Akaike Information Criterion with correction) from becoming infinite. Insufficient data points might also lead to overfitting. The AICc values were used as the criterion for model assessment.\par
+The final output includes four tables storing information for each ID and the results of fitting the logistic, Gompertz, quadratic, and cubic models. Each table also contains AICc values, Rsquared values, and relevant parameters. Additionally, the output provides the probability of each model winning(The model winning means that the model is the best fitting model in the current ID data. Count the number of times each model wins to obtain the probability of the model winning).\par
+The plotting of each dataset during model fitting is presented as a scatterplot, where the x-axis represents the timeline, and the y-axis corresponds to the natural logarithm of the population count at that time. All original data points are depicted as dots on the graph, while a series of predicted data points are employed to generate a smooth curve representing the model fit.
+
+
+\section{Results}
+In this dataset, there are a total of 285 data sets divided by ID, but in the final results, only 270 data sets are suitable for fitting (the remaining 15 data sets have a quantity <6). For these 270 data sets, the logistic model emerged as the winner in 149 cases, with the Gompertz model coming in second and performing best in 62 instances. In comparison, the cubic and quadratic models did not exhibit strong performance compared to the top two mechanistic models, winning in 37 and 22 cases, respectively. The corresponding results can also be reflected in the following figures.\par
+\begin{figure}[H]
+  \subfloat[Model Fitting Evaluation Metric: AICc values]{
+	\begin{minipage}[c][0.8\width]{
+	   0.5\textwidth}
+	   \centering
+	   \includegraphics[scale=0.42]{../data/AICc.pdf}
+	\end{minipage}}
+ \hfill
+  \subfloat[Model Fitting Evaluation Metric: $R^2$]{
+	\begin{minipage}[c][0.8\width]{
+	   0.5\textwidth}
+	   \centering
+	   \includegraphics[scale=0.42]{../data/Rsq.pdf}
+	\end{minipage}}
+\caption{Model Fitting Evaluation Metric}
+\end{figure}\par
+As shown in the figure above, both R² and AICc serve as criteria to evaluate the goodness of model fitting. AICc, in comparison to R², is more precise, as R² tends to have minimal variation, mostly distributed between 0.9 and 1.0, as depicted in the boxplot. When selecting a fitting model, a smaller AICc value indicates better model fitting. In the AICc plot, the logistic model occupies more of the minimum values, followed by the Gompertz model. Therefore, it can be concluded that nonlinear mechanistic models outperform quadratic and cubic models.\par
+
+For the logistic, quadratic, and cubic models, they struggled to effectively predict lag-phase data, as illustrated in the following graph.
+In this dataset, there are a total of 285 data sets divided by ID, but in the final results, only 270 data sets are suitable for fitting (the remaining 15 data sets have a quantity <6). For these 270 data sets, the logistic model emerged as the winner in 149 cases, with the Gompertz model coming in second and performing best in 62 instances. In comparison, the cubic and quadratic models did not exhibit strong performance compared to the top two mechanistic models, winning in 37 and 22 cases, respectively.
+
+For the logistic, quadratic, and cubic models, they struggled to effectively predict lag-phase data, as illustrated in the following graph.
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale = 0.6]{../data/ID_172_model.pdf}
+  \caption{Visualization of Model Fitting for ID Data with Significant Lag-phase in the Dataset.}
+\end{figure}\par
+From the graphs above, it is evident that, except for the Gompertz model, the remaining three models have not effectively addressed the lag phase data. Instead, they have skipped directly to the exponential phase.\par
+Upon further investigation, I observed that while the Gompertz model effectively handles lag phase data, it struggles to accommodate death phase data. A notable example is the model fitting visualization for data of ID 2.
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale = 0.6]{../data/ID_2_model.pdf}
+  \caption{Visualization of Model Fitting for ID Data with Significant Death-phase in the Dataset.}
+\end{figure}\par
+As shown in the above figure, the Gompertz model appears as a straight line after the bacterial population peaks, failing to reflect the declining trend in bacterial count during the death phase.\par
+When dealing with data that exhibits clear patterns in all four stages, as shown in the figures below.
+\begin{figure}[H]
+  \subfloat[well-fitted model that in real life data]{
+	\begin{minipage}[c][0.8\width]{
+	   0.5\textwidth}
+	   \centering
+	   \includegraphics[scale=0.4]{../data/ID_19_best_model.pdf}
+	\end{minipage}}
+ \hfill
+  \subfloat[poorly-fitted model in real life data]{
+	\begin{minipage}[c][0.8\width]{
+	   0.5\textwidth}
+	   \centering
+	   \includegraphics[scale=0.4]{../data/ID_19_worst_model.pdf}
+	\end{minipage}}
+\caption{Best and worst-fitting models for data with all four stages.}
+\end{figure}\par
+The above images also demonstrate that the logistic model performs well in fitting real-life data, while the cubic model exhibits poor fitting results.
+
+
+% Discussion 
+\section{Discussion}
+The aim of my project is to analyze the growth of different types of bacteria and determine which model, between nonlinear mechanistic models and phenomenological models, performs better in fitting the data.\par
+As for the analyzed data, it was divided into 285 ID subsets based on factors such as Temp, Medium, Citation, and Species, with each subset categorized by ID. The data analyzed in this project is composed of these subsets. During the model fitting the project data, I observed that, by comparing AICc values, the logistic model tends to be the best-fitting model in most cases, while the quadratic and cubic models show superior performance only in a small fraction of the data. In the work of Burnham et al., "Model selection and inference: a practical information-theoretic approach," it is recommended to use the Akaike Information Criterion (AIC; Akaike 1973) for model selection in a multi-model environment (\cite{burnham_2002}). The reason for using AICc as the model selection criterion instead of AIC is that AIC imposes a relatively smaller penalty for model complexity, making it suitable for large sample sizes but potentially leading to overfitting in small samples. On the other hand, AICc is more conservative for small samples, imposing a stronger penalty on model complexity and helping to prevent overfitting (\cite{johnson_2004}). Therefore, in this project, I chose to use AICc as the standard for model selection.\par
+Among the four models employed in my project, the logistic model effectively describes the exponential and stationary phases of population growth, which are crucial stages in population dynamics. However, research findings reveal that bacterial growth includes two additional phases: the lag phase and the death phase, which the logistic model struggles to explain adequately (\cite{maier_book_2015}). In contrast, the Gompertz model proves effective in analyzing the initial phase of bacterial growth, known as the lag phase (\cite{peleg_2011}). Both the Gompertz and logistic models require initial parameters for fitting, which can be sampled from uniform or Gaussian distributions. In this project, I decided to set the initial value of r\_{max} to 0.02 because, under this parameter, both models exhibited a relatively higher success rate in fitting. This significantly improved the overall success rate of model fitting. \par
+In this project, a significant portion of the data effectively shows the trend of population growth. However, these data are not entirely similar, as different ID data are subject to unique environmental conditions, such as specific combinations of temperature and bacterial species. Altering these conditions may lead to variations in data distribution, providing ample samples for selecting the best-fitting model. Moreover, the core of ecological research lies in observing the spatial and temporal distribution and abundance changes of biological populations, especially those of the same species. Researchers in population ecology often employ mathematical models and statistical methods to quantify and predict population dynamics. As mentioned by Malthus, the growth of organisms is constrained by available resources, exhibiting exponential growth in the former case and linear growth in the latter (\cite{malthus_population_1798}). Understanding and studying environmental factors allows us to apply relevant parameters when using mechanistic models to predict dynamic populations, aiding in model fitting. In conclusion, through this project, it can be inferred that mechanistic models provide the best fit for bacterial population growth in experimental environments.
+
+% References
+\section{References}
+\bibliographystyle{apalike}
+\bibliography{ref} 
+\end{document}
