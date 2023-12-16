@@ -38,6 +38,6 @@ lm.function = function(x){
 }
 
 PP_Regress_Results <- bind_rows(lapply(MyDF.subsets, lm.function))
-write.csv(na.omit(PP_Regress_Results),file="PP_Regress_Results.csv")
+write.csv(na.omit(PP_Regress_Results),file="../results/PP_Regress_Results.csv")
 print("Model summary file outputted to: ../results/PP_Regress_Results.csv")
 
