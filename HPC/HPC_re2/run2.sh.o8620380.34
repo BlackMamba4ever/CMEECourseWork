@@ -1,0 +1,83 @@
+Beginning run R
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: x86_64-conda-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # CMEE 2022 HPC exercises R code pro forma
+> # For stochastic demographic model cluster run
+> 
+> rm(list=ls())
+> graphics.off()
+> # source("/Users/zpu/CMEECourseWork/HPC/pz123_HPC_2023_main.R")
+> source("pz123_HPC_2023_main.R")
+After waiting for a sufficiently long time, the system will converge to a state where only a single species remains. 
+
+This is because, in this model, individuals are continuously replaced by others, leading to the gradual extinction of species until only one species is left.> iter <- as.numeric(Sys.getenv("PBS_ARRAY_INDEX"))
+> # iter <- 66
+> set.seed(iter)
+> 
+> clutch_distribution <- c(0.06,0.08,0.13,0.15,0.16,0.18,0.15,0.06,0.03)
+> simulation_length <- 150
+> growth_matrix <- matrix(c(0.1, 0.0, 0.0, 0.0,
++                           0.5, 0.4, 0.0, 0.0,
++                           0.0, 0.4, 0.7, 0.0,
++                           0.0, 0.0, 0.25, 0.4),
++                         nrow=4, ncol=4, byrow=T)
+> reproduction_matrix <- matrix(c(0.0, 0.0, 0.0, 2.6,
++                                 0.0, 0.0, 0.0, 0.0,
++                                 0.0, 0.0, 0.0, 0.0,
++                                 0.0, 0.0, 0.0, 0.0),
++                               nrow=4, ncol=4, byrow=T)
+> init_state_1 <- state_initialise_adult(4,100)
+> init_state_2 <- state_initialise_adult(4,10)
+> init_state_3 <- state_initialise_spread(4, 100)
+> init_state_4 <- state_initialise_spread(4,10)
+> 
+> 
+> if(iter >= 1 && iter <= 25){
++   initial_state <- init_state_1
++ }else if(iter > 25 && iter <= 50){
++   initial_state <- init_state_2
++ }else if(iter > 50 && iter <= 75){
++   initial_state <- init_state_3
++ }else if(iter > 75 && iter <= 100){
++   initial_state <- init_state_4
++ }
+> 
+> pop_size <- stochastic_simulation(
++   initial_state = initial_state,
++   growth_matrix = growth_matrix,
++   reproduction_matrix = reproduction_matrix,
++   clutch_distribution = clutch_distribution,
++   simulation_length = simulation_length
++ )
+> save(pop_size, file = paste("pz123_2_", iter, ".rda", sep=""))
+> 
+> 
+> 
+Finished run R
+
+============================================
+
+        Job resource usage summary 
+
+                 Memory (GB)    NCPUs
+ Requested  :         1             1
+ Used       :         0 (peak)   0.00 (ave)
+
+============================================

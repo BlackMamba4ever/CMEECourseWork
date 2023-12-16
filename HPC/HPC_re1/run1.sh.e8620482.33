@@ -1,0 +1,2 @@
+=>> PBS: job killed: mem 1120228kb exceeded limit 1048576kb
+-bash: line 1: 246810 Killed                  /var/spool/PBS/mom_priv/jobs/8620482\[33\].pbs.SC
