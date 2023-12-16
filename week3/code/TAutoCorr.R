@@ -35,7 +35,7 @@ pos <- sum(c_c_values_10000 > c_c_1) / 10000
 
 num <- length(ats$Year)
 Temp1 <- ats$Temp[-1] - ats$Temp[-num]
-png(file = "../results/ats_plot.png")
+png(file = "../data/ats_plot.png")
 df_temp <- data.frame(Temp1 = ats$Temp[-num], Temp2 = ats$Temp[-1])
 gg <- ggplot(df_temp, aes(Temp1, Temp2)) +
   xlab("Temperature1") + 
@@ -47,7 +47,7 @@ gg <- ggplot(df_temp, aes(Temp1, Temp2)) +
 print(gg)
 dev.off()
 
-png(file = "../results/ats_random_plot.png")
+png(file = "../data/ats_random_plot.png")
 g <- ggplot(c_c_values_10000, aes(x = c_c_values)) +
   xlab("Correlation Coefficient") + 
   geom_histogram(fill = "lightblue", colour = "black")+
