@@ -9,7 +9,7 @@ source("pz123_HPC_2023_main.R")
 iter <- as.numeric(Sys.getenv("PBS_ARRAY_INDEX"))
 
 set.seed(iter)
-init_commy <- c(500, 100, 1500, 2000)
+init_commy <- c(500, 1000, 2500, 5000)
 if (iter >= 1 & iter <= 25) {
   size <- init_commy[1]
 }

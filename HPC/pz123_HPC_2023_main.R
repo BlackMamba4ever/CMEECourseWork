@@ -16,6 +16,7 @@ username <- "pz123"
 # wipe away any automarking code that may be running and that would be annoying!
 rm(list = ls())
 graphics.off()
+library(ggplot2)
 # Question 1
 species_richness <- function(community){
   richness <-length(unique(community))
@@ -128,6 +129,7 @@ question_12 <- function(){
   dev.off()
   return(cat(paste("Whether the initial community consists solely of a single species or contains the maximum number of species, they eventually converge to the same point, which is the maximum number of species present in the initial conditions.", "\n\nThis is because the introduction of a new species is accompanied by a reduction of one of the original species. For a community originally consisting of 100 unique species, each species represented by a single individual, the species richness remains unchanged. However, for a community that initially has only one species with 100 individuals, the species richness increases continually until it finally reaches the maximum species richness, thus becoming akin to the first scenario.")))
 }
+question_12()
 # Question 13
 species_abundance <- function(commy){
   tb_rich <- as.vector(table(commy))
@@ -188,16 +190,16 @@ question_16 <- function(){
   oct_rich_min_mean <- oct_rich_min / 100
   oct_rich_max_mean <- oct_rich_max / 100
   png("question_16_plot_min.png", width = 600, height = 400)
-  barplot(oct_rich_min_mean, col = "lightblue", border = "black", main = "Bar plot of species abundance distribution in octaves(min)")
+  barplot(oct_rich_min_mean, col = "lightblue", border = "black", names.arg = c("1", "2", "3", "4", "5", "6"), ylab = "Count mean in each Octaves", xlab = "Octaves", main = "Bar plot of species abundance distribution in octaves(min)")
   Sys.sleep(0.1)
   dev.off()
   png("question_16_plot_max.png", width = 600, height = 400)
-  barplot(oct_rich_max_mean, col = "lightpink", border = "black", main = "Bar plot of species abundance distribution in octaves(max)")
+  barplot(oct_rich_max_mean, col = "lightpink", border = "black", names.arg = c("1", "2", "3", "4", "5", "6"), ylab = "Count mean in each Octaves", xlab = "Octaves", main = "Bar plot of species abundance distribution in octaves(max)")
   Sys.sleep(0.1)
   dev.off()
   return(cat("Initial conditions are not important. Their speciation rates are the same, and their running generation lengths are the same, so they have the same pattern."))
 }
-#question_16()
+question_16()
 # Question 17
 neutral_cluster_run <-
   function(speciation_rate,
@@ -330,83 +332,66 @@ process_neutral_cluster_results <- function() {
   rda_files <- list.files(pattern = "^pz123_1_.*\\.rda$")
   oct_500 <- c()
   oct_1000 <- c()
-  oct_1500 <- c()
-  oct_2000 <- c()
+  oct_2500 <- c()
+  oct_5000 <- c()
   gab_500 <- 0
   gab_1000 <- 0
-  gab_1500 <- 0
-  gab_2000 <- 0
+  gab_2500 <- 0
+  gab_5000 <- 0
 
   for (file in rda_files) {
     load(file)
-    if (size == 1000) {
-      print(octaves_min)
-      for (i in 1:length(octaves_min)) {
-        if (i > burn_in_generations / interval_oct) {
-          oct_1000 <- sum_vect(octaves_min[[i]], oct_1000)
-        }
-      }
-      gab_1000 <-
-        gab_1000 + length(octaves_min) - burn_in_generations / interval_oct
-    }
-  }
-  for (file in rda_files) {
-    load(file)
     if (size == 500) {
-      print(octaves_min)
       for (i in 1:length(octaves_min)) {
         if (i > burn_in_generations / interval_oct) {
-          oct_500 <- sum_vect(octaves_min[[i]], oct_500)
+          oct_500 <- sum_vect(oct_500, octaves_min[[i]])
         }
       }
       gab_500 <-
         gab_500 + length(octaves_min) - burn_in_generations / interval_oct
     }
     if (size == 1000) {
-      print(octaves_min)
       for (i in 1:length(octaves_min)) {
         if (i > burn_in_generations / interval_oct) {
-          oct_1000 <- sum_vect(octaves_min[[i]], oct_1000)
+          oct_1000 <- sum_vect(oct_1000, octaves_min[[i]])
         }
       }
       gab_1000 <-
         gab_1000 + length(octaves_min) - burn_in_generations / interval_oct
     }
-    if (size == 1500) {
+    if (size == 2500) {
       for (i in 1:length(octaves_min)) {
         if (i > burn_in_generations / interval_oct) {
-          oct_1500 <- sum_vect(octaves_min[[i]], oct_1500)
+          oct_2500 <- sum_vect(oct_2500, octaves_min[[i]])
         }
       }
-      gab_1500 <-
-        gab_1500 + length(octaves_min) - burn_in_generations / interval_oct
+      gab_2500 <-
+        gab_2500 + length(octaves_min) - burn_in_generations / interval_oct
     }
-    if (size == 2000) {
+    if (size == 5000) {
       for (i in 1:length(octaves_min)) {
         if (i > burn_in_generations / interval_oct) {
-          oct_2000 <- sum_vect(octaves_min[[i]], oct_2000)
+          oct_5000 <- sum_vect(oct_5000, octaves_min[[i]])
         }
       }
-      gab_2000 <-
-        gab_2000 + length(octaves_min) - burn_in_generations / interval_oct
+      gab_5000 <-
+        gab_5000 + length(octaves_min) - burn_in_generations / interval_oct
     }
   }
 
   size_500_mean <- oct_500 / gab_500
   size_1000_mean <- oct_1000 / gab_1000
-  size_1500_mean <- oct_1500 / gab_1500
-  size_2000_mean <- oct_2000 / gab_2000
+  size_2500_mean <- oct_2500 / gab_2500
+  size_5000_mean <- oct_5000 / gab_5000
   combined_results <- list(
     size_500_mean,
     size_1000_mean,
-    size_1500_mean,
-    size_2000_mean
+    size_2500_mean,
+    size_5000_mean
   )
   # save results to an .rda file
   save(combined_results, file = "combined_results.rda")
 }
-
-# process_neutral_cluster_results()
 
 plot_neutral_cluster_results <- function() {
   graphics.off()
@@ -414,8 +399,8 @@ plot_neutral_cluster_results <- function() {
   load("combined_results.rda")
   size_500_mean <- combined_results[[1]]
   size_1000_mean <- combined_results[[2]]
-  size_1500_mean <- combined_results[[3]]
-  size_2000_mean <- combined_results[[4]]
+  size_2500_mean <- combined_results[[3]]
+  size_5000_mean <- combined_results[[4]]
 
   png(filename = "plot_neutral_cluster_results.png",
       width = 600,
@@ -426,6 +411,7 @@ plot_neutral_cluster_results <- function() {
     size_500_mean,
     xlab = "Octaves",
     ylab = "Richness",
+    ylim = c(0, max(size_500_mean) * 1.2),
     main = "Community: 500",
     col = "lightpink"
   )
@@ -433,28 +419,29 @@ plot_neutral_cluster_results <- function() {
     size_1000_mean,
     xlab = "Octaves",
     ylab = "Richness",
+    ylim = c(0, max(size_1000_mean) * 1.2),
     main = "Community: 1000",
     col = "lightblue"
   )
   barplot(
-    size_1500_mean,
+    size_2500_mean,
     xlab = "Octaves",
     ylab = "Richness",
-    main = "Community: 1500",
+    ylim = c(0, max(size_2500_mean) * 1.2),
+    main = "Community: 2500",
     col = "lightyellow"
   )
   barplot(
-    size_2000_mean,
+    size_5000_mean,
     xlab = "Octaves",
     ylab = "Richness",
-    main = "Community: 2000",
+    ylim = c(0, max(size_5000_mean) * 1.2),
+    main = "Community: 5000",
     col = "lightgreen"
   )
   Sys.sleep(0.1)
   dev.off()
-  return(combined_results)
 }
-# plot_neutral_cluster_results()
 
 
 # Question 21
@@ -538,7 +525,7 @@ question_25 <- function(){
   
   return("The population size of both is increasing. The population size grows faster when the entire population is adults in the initial state.")
 }
-# question_25()
+question_25()
 
 # Question 26
 multinomial <- function(pool,probs) {
@@ -672,7 +659,7 @@ stochastic_simulation <- function(initial_state,growth_matrix,reproduction_matri
 #                                                   clutch_distribution = c(0.06,0.08,0.13,0.15,0.16,0.18,0.15,0.06,0.03),
 #                                                   simulation_length = 150)
 # 
-
+# 
 
 # Question 33
 question_33 <- function(){
@@ -705,7 +692,7 @@ question_33 <- function(){
   
   return("There is a significant difference between the two. Stochastic simulation does not produce smooth curves. This is because different probabilities are introduced when calculating the population.")
 }
-# question_33()
+question_33()
 # Questions 34 and 35 involve writing code elsewhere to run your simulations on the cluster
 
 # Question 36
@@ -719,21 +706,23 @@ question_36 <- function(){
     file_name <- paste("pz123_2_",i,".rda",sep="")
     if (file.exists(paste("pz123_2_",i,".rda",sep=""))) {
       load(file_name)
-      if(pop_size[length(pop_size)] == 0){
-        if(i > 0 && i <=25){
-          adults_100_init <- adults_100_init + 1
-        }
-        else if(i > 25 && i <=50){
-          adults_10_init <- adults_10_init + 1
-        }
-        else if(i > 50 && i <=75){
-          ave_100_init <- ave_100_init + 1
-        }
-        else if(i > 75 && i <=100){
-          ave_10_init <- ave_10_init + 1
+      for(list in allpop_list){
+        pop_size <- list
+        if(pop_size[length(pop_size)] == 0){
+          if(i > 0 && i <=25){
+            adults_100_init <- adults_100_init + 1
+          }
+          else if(i > 25 && i <=50){
+            adults_10_init <- adults_10_init + 1
+          }
+          else if(i > 50 && i <=75){
+            ave_100_init <- ave_100_init + 1
+          }
+          else if(i > 75 && i <=100){
+            ave_10_init <- ave_10_init + 1
+          }
         }
       }
-      print(file_name)
     } 
     else {
       next
@@ -759,9 +748,9 @@ question_36 <- function(){
   Sys.sleep(0.1)
   dev.off()
   
-  return("Visualization shows that smaller populations are most likely to go extinct. This is because a smaller initial population, with a smaller base, leads to a higher probability of extinction.")
+  return("Visualization shows that smaller populations are more prone to extinction compared to larger ones, and among all smaller populations, those consisting solely of adults are the most vulnerable to extinction. This is because the smaller the initial population size, the smaller the base number, and the greater the likelihood of extinction.")
 }
-# question_36()
+question_36()
 # Question 37
 question_37 <- function(){
   df_l <- data.frame()
@@ -770,10 +759,16 @@ question_37 <- function(){
     if (file.exists(paste("pz123_2_",i,".rda",sep=""))) {
       load(paste("pz123_2_", i, ".rda", sep = ""))
       if (i > 50 && i <= 75) {
-        df_l <- rbind(df_l, pop_size)
+        for(j in 1:length(allpop_list)){
+          pop_size <- allpop_list[[j]]
+          df_l <- rbind(df_l, pop_size)
+        }
       }
       else if (i > 75 && i <= 100) {
-        df_s <- rbind(df_s, pop_size)
+        for(j in 1:length(allpop_list)){
+          pop_size <- allpop_list[[j]]
+          df_s <- rbind(df_s, pop_size)
+        }
       }
     }
     else{
@@ -790,15 +785,16 @@ question_37 <- function(){
                                 0.0, 0.4, 0.7, 0.0,
                                 0.0, 0.0, 0.25, 0.4),
                               nrow=4, ncol=4, byrow=T)
-  simulation_length <- 150
+  simulation_length <- 120
   pop_s_de_large <- deterministic_simulation(initial_state = ave_large, projection_matrix = projection_matrix, simulation_length = simulation_length)
   pop_s_de_small <- deterministic_simulation(initial_state = ave_small, projection_matrix = projection_matrix, simulation_length = simulation_length)
   png(filename="question_37_small.png", width = 600, height = 400)
   # plot your graph for the small initial population size here
   g <- ggplot()+
-    geom_line(aes(x=seq(0,150,1),y=pop_s_de_small),colour="red")+
-    geom_line(aes(x=seq(0,150,1),y=mean_s),colour="black")+
-    labs(x="Time",y="Population size with large initial Pop")+
+    geom_line(aes(x=seq(0,120,1),y=pop_s_de_small),colour="red")+
+    geom_line(aes(x=seq(0,120,1),y=mean_s),colour="black")+
+    geom_hline(yintercept = min(mean_s), linetype = "dashed", color = "blue")+
+    labs(x="Time",y="Population size with small initial Pop")+
     ggtitle("The Large Starting Population of Stochastic Simulation & Deterministic Simulation") +
     theme_bw()
   print(g)
@@ -808,9 +804,10 @@ question_37 <- function(){
   png(filename="question_37_large.png", width = 600, height = 400)
   # plot your graph for the large initial population size here
   g2 <- ggplot()+
-    geom_line(aes(x=seq(0,150,1),y=pop_s_de_large),colour="red")+
-    geom_line(aes(x=seq(0,150,1),y=mean_l),colour="black")+
-    labs(x="Time",y="Population size with small initial Pop")+
+    geom_line(aes(x=seq(0,120,1),y=pop_s_de_large),colour="red")+
+    geom_line(aes(x=seq(0,120,1),y=mean_l),colour="black")+
+    geom_hline(yintercept = min(mean_l), linetype = "dashed", color = "blue")+
+    labs(x="Time",y="Population size with large initial Pop")+
     ggtitle("The Small Starting Population of Stochastic Simulation & Deterministic Simulation") +
     theme_bw()
   print(g2)
@@ -819,7 +816,7 @@ question_37 <- function(){
   
   return("For initial conditions with a larger number of samples, it is more appropriate to approximate the 'average' behavior of this stochastic system with a deterministic model. This is because populations with a smaller initial scale have a smaller base, and the stochastic simulation involves elements of chance.")
 }
-# question_37()
+question_37()
 
 
 # Challenge questions - these are optional, substantially harder, and a maximum
