@@ -16,7 +16,6 @@ username <- "pz123"
 # wipe away any automarking code that may be running and that would be annoying!
 rm(list = ls())
 graphics.off()
-library(ggplot2)
 # Question 1
 species_richness <- function(community){
   richness <-length(unique(community))
@@ -112,6 +111,7 @@ neutral_time_series_speciation <- function(commy, duration, speciation_rate){
 
 # Question 12
 question_12 <- function(){
+  library(ggplot2)
   png("question_12.png", width = 600, height = 400)
   richness_1 <- neutral_time_series_speciation(init_community_max(100), duration = 200, speciation_rate = 0.1)
   richness_2 <- neutral_time_series_speciation(init_community_min(100), duration = 200, speciation_rate = 0.1)
@@ -394,6 +394,7 @@ process_neutral_cluster_results <- function() {
 }
 
 plot_neutral_cluster_results <- function() {
+  
   graphics.off()
   #load the data
   load("combined_results.rda")
@@ -492,6 +493,7 @@ deterministic_simulation <- function(initial_state,projection_matrix,simulation_
 
 # Question 25
 question_25 <- function(){
+  library(ggplot2)
   
   growth_matrix <- matrix(c(0.1, 0.0, 0.0, 0.0,
                             0.5, 0.4, 0.0, 0.0,
@@ -663,6 +665,8 @@ stochastic_simulation <- function(initial_state,growth_matrix,reproduction_matri
 
 # Question 33
 question_33 <- function(){
+  library(ggplot2)
+  
   clutch_distribution <- c(0.06,0.08,0.13,0.15,0.16,0.18,0.15,0.06,0.03)
   growth_matrix <- matrix(c(0.1, 0.0, 0.0, 0.0,
                             0.5, 0.4, 0.0, 0.0,
@@ -697,6 +701,8 @@ question_33()
 
 # Question 36
 question_36 <- function(){
+  library(ggplot2)
+  
   adults_100_init <- 0
   ave_100_init <- 0
   adults_10_init <- 0
@@ -753,6 +759,8 @@ question_36 <- function(){
 question_36()
 # Question 37
 question_37 <- function(){
+  library(ggplot2)
+  
   df_l <- data.frame()
   df_s <- data.frame()
   for (i in 51:100) {
@@ -824,21 +832,62 @@ question_37()
 
 # Challenge question A
 Challenge_A <- function() {
+  count_in_20 <- 0 # count for the number of records of species richness
+  speciation_rate <- 0.1
+  mean_max_rich <- c()
+  mean_min_rich <- c()
+  sd <- 1
+  max_u <- c()
+  max_l <- c()
+  min_u <- c()
+  min_l <- c()
   
-  
-  
-  png(filename="Challenge_A_min", width = 600, height = 400)
-  # plot your graph here
+  commy_min <- init_community_min(100)
+  commy_max <- init_community_max(100)
+  for(i in 1:200){
+    commy_min <- neutral_generation_speciation(commy_min, speciation_rate = 0.1)
+    commy_max <- neutral_generation_speciation(commy_max, speciation_rate = 0.1)
+  }
+  oct_rich_min <- octaves(commy_min)
+  oct_rich_max <- octaves(commy_max)
+  for(i in 1:2000){
+    commy_min <-neutral_generation_speciation(commy_min, speciation_rate = 0.1)
+    commy_max <-neutral_generation_speciation(commy_max, speciation_rate = 0.1)
+    if(i %% 20 == 0){
+      count_in_20 <- count_in_20 + 1
+      oct_rich_min <- sum_vect(oct_rich_min, octaves(commy_min))
+      oct_rich_max <- sum_vect(oct_rich_max, octaves(commy_max))
+      mean_max_rich[count_in_20] <- oct_rich_max / count_in_20
+      mean_min_rich[count_in_20] <- oct_rich_min / count_in_20
+      err <- qnorm(0.972) * sd / count_in_20
+      
+      max_u <- c(max_u, mean_max_rich[count_in_20] + err)
+      min_u <- c(min_u, mean_min_rich[count_in_20] + err)
+      max_l <- c(max_l, mean_max_rich[count_in_20] - err)
+      min_l <- c(min_l, mean_min_rich[count_in_20] - err)
+    }
+  }
+  time_s <- seq(1,count_in_20,1)
+  png(filename="Challenge_A.png", width = 600, height = 400)
+  g <- ggplot() +
+    geom_line(aes(x = time_s, y = mean_min_rich), col = "blue", size = 0.8) +
+    geom_line(aes(x = time_s, y = mean_max_rich), col = "red", size = 0.8) +
+    geom_ribbon(aes(x = time_s, ymin = min_l, ymax = min_u),
+                fill = "darkblue",
+                alpha = 0.2) +
+    geom_ribbon(aes(x = time_s, ymin = max_l, ymax = max_u),
+                fill = "darkred",
+                alpha = 0.2) +
+    theme_bw() +
+    labs(x = "Time Series", y = "Mean species richness")
+  print(g)
   Sys.sleep(0.1)
   dev.off()
   
-  png(filename="Challenge_A_max", width = 600, height = 400)
-  # plot your graph here
-  Sys.sleep(0.1)
-  dev.off()
+  return("According to the visualization diagram, equilibrium can be reached at about 30, and by calculation it takes about 30 * 20 + 200 = 800 generations.")
 
 }
-
+Challenge_A()
 # Challenge question B
 Challenge_B <- function() {
   
@@ -853,15 +902,37 @@ Challenge_B <- function() {
 
 # Challenge question C
 Challenge_C <- function() {
+  rich_mean <- c()
+  for(i in 1:100){
+    load(paste("pz123_1_", i, ".rda", sep = ""))
+    if(i >= 1 & i <= 25){
+      rich_mean[i] <- species_richness(commy_min) / i
+    }
+    if(i > 25 & i <= 50){
+      rich_mean[i] <- species_richness(commy_min) / i
+    }
+    if(i > 50 & i <= 75){
+      rich_mean[i] <- species_richness(commy_min) / i
+    }
+    if(i > 75 & i <= 100){
+      rich_mean[i] <- species_richness(commy_min) / i
+    }
+  }
+  seq <- c(rep("Size_500",25), rep("Size_1000",25),rep("Size_2500",25),rep("Size_5000",25))
+  df <- data.frame(rich_mean, seq)
+
   
+  png(filename="Challenge_C.png", width = 600, height = 400)
   
-  
-  png(filename="Challenge_C", width = 600, height = 400)
-  # plot your graph here
+  g <- ggplot(data = df, aes(x = seq, y = rich_mean, col = seq)) + 
+    geom_point() +
+    labs(x = "size seq", y = "Mean") +
+    theme_bw()
+  print(g)
   Sys.sleep(0.1)
   dev.off()
-
 }
+Challenge_C()
 
 # Challenge question D
 Challenge_D <- function() {
