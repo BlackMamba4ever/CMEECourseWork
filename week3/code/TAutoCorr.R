@@ -9,6 +9,7 @@ library(dplyr)
 require(ggthemes)
 library(ggthemes)
 
+set.seed(1)
 rm(list = ls())
 load("../data/KeyWestAnnualMeanTemperature.RData")
 cor_f1 <- function(data){
@@ -35,19 +36,20 @@ pos <- sum(c_c_values_10000 > c_c_1) / 10000
 
 num <- length(ats$Year)
 Temp1 <- ats$Temp[-1] - ats$Temp[-num]
-png(file = "../data/ats_plot.png")
+png(file = "../results/ats_plot.png")
 df_temp <- data.frame(Temp1 = ats$Temp[-num], Temp2 = ats$Temp[-1])
 gg <- ggplot(df_temp, aes(Temp1, Temp2)) +
   xlab("Temperature1") + 
   ylab("Temperature2") +
   geom_point(shape = I(4)) +
+  geom_smooth(method = "lm", fullrange = T, colour = "red") +
   xlim(c(23.5, 26.5)) + 
   ylim(c(23.5, 26.5)) + 
   theme_bw()
 print(gg)
 dev.off()
 
-png(file = "../data/ats_random_plot.png")
+png(file = "../results/ats_random_plot.png")
 g <- ggplot(c_c_values_10000, aes(x = c_c_values)) +
   xlab("Correlation Coefficient") + 
   geom_histogram(fill = "lightblue", colour = "black")+
@@ -55,6 +57,7 @@ g <- ggplot(c_c_values_10000, aes(x = c_c_values)) +
   theme_bw()
 print(g)
 dev.off()
+
 
 
 
