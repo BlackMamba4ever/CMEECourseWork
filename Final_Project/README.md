@@ -37,5 +37,5 @@ All data used are in data_1.zip
 - cata: A separate csv file extracted during the analysis, mainly used in code2.R
 
 # Author name and contact
-Name: PU ZHAO
-Email: pu.zhao23@imperial.ac.uk
+- Name: PU ZHAO
+- Email: pu.zhao23@imperial.ac.uk
