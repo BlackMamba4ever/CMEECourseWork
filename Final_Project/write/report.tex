@@ -10,7 +10,7 @@
 \usepackage{authblk}
 \usepackage{booktabs}
 \usepackage{natbib}
-
+\usepackage{url} 
 \doublespacing
 \begin{document}
 \title{\LARGE \textbf{ Assessing the Impact of Anthropogenic and Natural Stressors on Motile Diversity in Coral Reef Ecosystems} \\
@@ -49,6 +49,10 @@
 
 
 \pagebreak
+
+\textit{Total word count: 5208 words.}
+
+\doublespacing
 
 \begin{abstract}
 Coral reef ecosystems are among the most diverse and productive environments on Earth, but they face significant threats from both anthropogenic and natural stressors. This study assesses the impact of these stressors on the diversity of motile organisms, such as fish and crustaceans, within coral reef ecosystems. Using data from 370 Autonomous Reef Monitoring Structures (ARMS) across 143 sites in 14 countries, we analyzed species diversity through the Shannon-Wiener diversity Index. Our analysis revealed a complex relationship between stressors and biodiversity. Anthropogenic stressors, notably fishing, demonstrated a significant positive correlation with motile diversity, suggesting that increased fishing pressure may reduce predator dominance, thereby enhancing overall species diversity. In contrast, natural environmental stressors exhibited a non-linear, U-shaped effect on motile diversity, where moderate levels of stress initially decreased diversity but later facilitated recovery. These results highlight the intricate dynamics within coral reef ecosystems, emphasizing the need for more detailed studies to fully understand the interplay between various stressors and biodiversity.
@@ -153,7 +157,7 @@ where:
     \item $p_i$ is the relative abundance of species $i$.
 \end{itemize}
 
-The flexibility of the Hill number makes it the preferred tool for diversity analysis in ecological research. In calculating the Hill numbers for different ARMS, we chose to use the diversity function from the R package vegan instead of manual formula calculations to achieve simplicity and reduce the likelihood of errors. In addition, we mainly use \(q_1\) (Shannon-Wiener Index) as the diversity indicator for motile organisms in coral reef ecosystems. The Shannon Index simultaneously considers species richness and species evenness, providing a comprehensive diversity measure that reflects the number of species in a community and the distribution of their relative abundances.
+The flexibility of the Hill number makes it the preferred tool for diversity analysis in ecological research. In calculating the Hill numbers for different ARMS, we chose to use the diversity function from the R package vegan instead of manual formula calculations to achieve simplicity and reduce the likelihood of errors. In addition, we mainly use \(q_1\) (Shannon-Wiener Index) as the diversity indicator for motile organisms in coral reef ecosystems. The Shannon Index simultaneously considers species richness and species evenness, providing a comprehensive diversity measure that reflects the number of species in a community and the distribution of their relative abundances. Compared to \(q_0\), which only considers the number of species, \(q_1\) better reflects the evenness of species distribution within the community. \(q_1\) has moderate sensitivity to both rare and dominant species, neither ignoring the presence of rare species nor overemphasizing the influence of common species. Therefore, it provides a more balanced perspective on diversity, avoiding the overestimation or underestimation of diversity in extreme cases. Compared to \(q_2\), which focuses more on dominant species, \(q_1\) captures more information about the internal structure of the community, especially when studying the evenness and overall diversity of community structure. In summary, choosing \(q_1\) as the diversity index strikes a balance between species richness and evenness, providing a more comprehensive and reliable evaluation of community diversity.
 
 \subsection{Statistical Analyses}
 
@@ -291,9 +295,14 @@ Coral reef ecosystems are subject to the combined effects of multiple stressors,
 
 % conclusion 
 \section{conclusion}
-In this study, we chose hill number \(q_1\) as the diversity index. \(q_1\) represents the exponential form of the Shannon index, which not only considers species richness but also balances the relative abundances of different species. Compared to \(q_0\), which only considers the number of species, \(q_1\) better reflects the evenness of species distribution within the community. Secondly, \(q_1\) has moderate sensitivity to both rare and dominant species, neither ignoring the presence of rare species nor overemphasizing the influence of common species. Therefore, it provides a more balanced perspective on diversity, avoiding the overestimation or underestimation of diversity in extreme cases. Additionally, \(q_1\) is a widely used diversity measure with strong interpretive power and practical utility in ecological studies. It effectively compares the diversity of different communities while avoiding misleading results due to extreme abundance differences. Finally, compared to \(q_2\), which focuses more on dominant species, \(q_1\) captures more information about the internal structure of the community, especially when studying the evenness and overall diversity of community structure. In summary, choosing \(q_1\) as the diversity index strikes a balance between species richness and evenness, providing a more comprehensive and reliable evaluation of community diversity.
 
 Our study demonstrates that motile diversity within marine coral reef ecosystems is influenced by both anthropogenic pressures and natural oceanic environmental factors. The effects of these pressures on diversity are complex. Based on our current data analyses, we found with a linear model that the overall anthropogenic pressure score is positively correlated with motile diversity. However, the presence of numerous zero values in some individual anthropogenic pressure data might contribute to inaccuracies in the analysis. In this case, we utilized a random forest model to visualize the importance of different variables, allowing us to explore the extent to which various anthropogenic pressure factors influence diversity. Due to the complex interactions and variability of oceanic environmental pressures, we were unable to establish a straightforward linear relationship between these factors and motile diversity. Nevertheless, using a polynomial regression model, we identified a nonlinear relationship between motile diversity and the overall environmental score (RESET score), which exhibits a "U-shaped" trend. We did not find a significant model to explain the relationship between motile diversity and individual oceanic environmental factors. These results reveal the complex responses of motile biodiversity in coral reef ecosystems to anthropogenic and natural environmental pressures. Within certain limits, anthropogenic pressures and natural environmental pressures may influence species distribution and diversity by altering the structure of the ecosystem. Looking forward, the collection of more detailed and accurate data will be key to advancing research, enabling a more comprehensive understanding of the impact of various stressors on species diversity within marine coral reef ecosystems. Additionally, integrating data across different ecological levels, such as species, communities, and ecosystem functions, will help reveal the multiple effects that these stressors have on biodiversity. Future research should also consider developing and applying more complex models to explore the interactions and cumulative effects among stressors, thereby providing a stronger scientific basis for ecosystem conservation and management.
+
+\section{Data and Code Availability}
+
+All data and codes in this project are available at:
+\url{https://github.com/BlackMamba4ever/CMEECourseWork/tree/master/Final\_Project}. For further information of code and data, please see README.md.
+
 % References
 \bibliographystyle{apalike}
 \bibliography{ref} % Replace with your actual .bib file
